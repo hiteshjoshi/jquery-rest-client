@@ -74,18 +74,13 @@ In this example requests the following order: Read User -> Create Post -> Update
 
 ```json
 {
-    waitingTime: 300, //Waiting time
-    waitLoopLimit: 60, //Quantity connection attempts limit
-    logger: 0, // Log display (0 and 1 = all, 2 = only errors)
-    fnError: function(msg) { //Called when an error is declared
+    "waitingTime": 300, //Waiting time
+    "waitLoopLimit": 60, //Quantity connection attempts limit
+    "logger": 0, // Log display (0 and 1 = all, 2 = only errors)
+    "fnError": function(msg) { //Called when an error is declared
         //...
-    },
-    setup: { //jQuery Ajax configuration http://api.jquery.com/jquery.ajax/
-
-        // cache: false,
-        dataType: 'json',
-        headers: {}
-    }
+     },
+    "setup": {} //jQuery Ajax configuration http://api.jquery.com/jquery.ajax/
 }
 ```
 
