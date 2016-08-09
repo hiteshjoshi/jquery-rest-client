@@ -1,18 +1,32 @@
-;
-(function($) {
+/**
+ * Created by Philippe Assis
+ * assis@philippeassis.com
+ * https://github.com/cupcoffeejs/jquery-rest-client
+ */
+;(function($) {
 
-    $.RestClient = function(options) {
+    $.RestClient = function(api, options) {
 
-        if (typeof options == 'string') {
-            var options = {
-                api: options
+        if (typeof api == 'object') {
+            options = {
+                'api': api
+            }
+        }
+        else{
+            if(typeof options == 'object'){
+                options.api = api;
+            }
+            else{
+                options = {
+                    'api': api
+                }
             }
         }
 
         var myName = 'jQuery-Rest-Client',
             settings = $.extend({
                 waitingTime: 300,
-                waitLoopLimit: 25,
+                waitLoopLimit: 60,
                 logger: 0,
                 fnError: function(msg) {
                     //...
@@ -24,12 +38,12 @@
                 }
             }, options || {}),
             logInfo = function(msg) {
-                if (settings.logger <= 2) {
+                if (settings.logger <= 1) {
                     console.log(myName + ': ' + msg)
                 }
             },
             logError = function(msg) {
-                if (settings.logger <= 1) {
+                if (settings.logger <= 2) {
                     console.error(myName + ': ' + msg)
                 }
             },
@@ -39,23 +53,22 @@
             },
             semaphore = {},
             waiting = null,
-            waitingCount = 0,
-            then = function(obj, callback){
-                if (waiting && !semaphore[waiting]) {
-                    if (waitingCount < settings.waitLoopLimit) {
-                        console.log(obj.current)
+            restCount = 0,
+            then = function(obj, callback) {
+                var _waiting = (obj.parent > -1 && obj.waiting) ? obj.waiting : waiting
+                if (_waiting && !semaphore[_waiting]) {
+                    logInfo('Trying... ' + obj.key)
+                    if (obj.waitingCount < settings.waitLoopLimit) {
                         var fnTest = function() {
-                            ++waitingCount;
-                            console.log(obj.current)
+                            ++obj.waitingCount;
                             then(obj, callback);
                         }
 
                         var t = setTimeout(fnTest, settings.waitingTime)
                     } else {
-                        return fnError("Wait too long, canceled operation.");
+                        return fnError("Wait too long, canceled operation. ["+obj.key+":"+obj.section+"]");
                     }
                 } else {
-                    waitingTime = settings.waitingTime;
 
                     var ajaxOptions = $.extend({
                         method: obj.current.method,
@@ -75,26 +88,42 @@
                 }
             },
             restControl = function(section, url) {
-                this.section = section
-                this.url = url
+                this.waitingCount = 0;
+                this.section = section;
+                this.url = url;
+                this.parent = -1;
+                this.waiting = null;
+                this.key = restCount++;
                 this.current = this.currentClean = {
-                        method: null,
-                        query: null,
-                        data: null,
-                        path: '',
-                        headers: {}
-                    }
+                    method: null,
+                    query: null,
+                    data: null,
+                    path: '',
+                    headers: {}
+                }
 
                 this.childrens = [];
 
                 this.wait = function(name) {
+                    if (semaphore[name] === true) {
+                        return this;
+                    }
+
                     semaphore[name] = false;
-                    waiting = name;
+
+                    if (this.parent > -1) {
+                        logInfo('WAIT REGISTRY IN PARENT: ' + name + ' by ' + this.key)
+                        this.waiting = name;
+                    } else {
+                        logInfo('WAIT REGISTRY WHIOUT PARENT: ' + name + ' by ' + this.key)
+                        waiting = name;
+                    }
                     return this;
                 }
 
                 this.release = function(name) {
                     semaphore[name] = true;
+                    logInfo('WAIT UNREGISTRED: ' + name + ' by ' + this.key)
                     return this;
                 }
 
@@ -106,27 +135,7 @@
                 this.add = function(newSection, newUrl) {
                     this.childrens.push(newSection);
                     this[newSection] = new restControl(newSection, newUrl || newSection);
-                }
-
-                this.read = function(value) {
-                    this.clear()
-                    if (typeof value == "object") {
-                        this.current.query = value;
-                        this.current.path = '';
-                    } else {
-                        this.current.path = '/' + value;
-                    }
-
-                    this.current.method = "GET";
-
-                    return this;
-                }
-
-                this.post = function(value) {
-                    this.clear()
-                    this.current.data = value;
-                    this.current.method = "POST";
-                    return this;
+                    this[newSection].parent = this.key
                 }
 
                 this.query = function(values) {
@@ -171,9 +180,60 @@
                     settings.fnError = callback;
                 }
 
+                this.read = function(value) {
+                    this.clear()
+                    if (typeof value == "object") {
+                        this.current.query = value;
+                        this.current.path = '';
+                    } else {
+                        this.current.path = '/' + value;
+                    }
 
+                    this.current.method = "GET";
 
-                this.then  = function(callback) {
+                    return this;
+                }
+
+                this.create = function(value) {
+                    this.clear()
+                    this.current.data = value;
+                    this.current.method = "POST";
+                    return this;
+                }
+
+                this.update = function(value){
+                    this.clear()
+                    this.current.data = value;
+                    this.current.method = "PUT";
+                    return this;
+                }
+
+                this.delete = function(value){
+                    this.clear()
+                    this.current.path = '/' + value;
+                    this.current.method = "DELETE";
+                    return this;
+                }
+
+                this.custom = function(value){
+                    this.current = {
+                        method: value.method || null,
+                        query: value.query || null,
+                        data: value.query || null,
+                        path: value.path || '',
+                        headers: value.headers || {},
+                    }
+                    return this;
+                }
+
+                this.get = this.read;
+                this.post = this.create;
+                this.insert = this.create;
+                this.del = this.delete;
+                this.remove = this.delete;
+
+                this.then = function(callback) {
+                    logInfo('Run the ' + this.key)
                     return then(this, callback)
                 }
 
