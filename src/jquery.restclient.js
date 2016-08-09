@@ -231,6 +231,7 @@
                 this.insert = this.create;
                 this.del = this.delete;
                 this.remove = this.delete;
+                this.destroy = this.delete;
 
                 this.then = function(callback) {
                     logInfo('Run the ' + this.key)
