@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Test</title>
+</head>
+
+<body>
+    <h1>'ok'</h1>
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="js/jquery.restclient.js"></script>
+
+    <script>
+        $(function() {
+            var rest = new $.RestClient('http://localhost:3000')
+            rest.add('login')
+            rest.add('services', 'api/services')
+            rest.add('profiles', 'api/profiles')
+
+            rest.login.post({
+                'username': "demo1@obrafacilapp.com",
+                "password": "321321"
+            }).then(function(data) {
+                rest.token(data.token, data.data.id);
+                rest.release('login');
+                console.log('LOGIN')
+            })
+
+            rest.wait('login')
+
+            rest.services.read('find').query({
+                'category': 'cimento'
+            }).then(function(data) {
+                console.log(data)
+
+            })
+
+            rest.services.read('find').query({
+                category: 'pintura'
+            }).then(function(data) {
+                console.log(data)
+            })
+
+
+            // rest.profiles.read('user').then(function(data) {
+            //     console.log(data)
+            // })
+
+
+            // myRest.services.read('ok')
+
+
+        })
+    </script>
+</body>
+
+</html>
