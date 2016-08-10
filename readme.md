@@ -23,6 +23,7 @@ This library is being built to work with CupCoffee Js, specifically Cupcoffee Au
 `[url_api] / [controller] / [method] / [id]`
 
 ## Examples
+
 ```javascript
     var rest = new $.RestClient('http://localhost:3000')
         rest.add('login') // http://localhost:3000/login
@@ -67,7 +68,6 @@ This library is being built to work with CupCoffee Js, specifically Cupcoffee Au
             rest.release('posts')
         })
 ```
-
 In this example requests the following order: Read User -> Create Post -> Update Category -> Delete comments
 
 ## Options
@@ -86,11 +86,24 @@ In this example requests the following order: Read User -> Create Post -> Update
 
 ## Methods
 
- - `.post, .insert and .create:` Send data in the body of the request using the POST method
+- `.post, .insert and .create:` Send data in the body of the request using the POST method.
+- `.remove, .delete, .del and .destroy:` Send a removal request with request to the url uses the DELETE method.
+- `.update:` Sends data in the header of the body using the PUT method.
+- `.read, .get:` Send a request to the URL using the GET method.
+- `.custom:` Receives an object with all the settings for a model.
+- `.isGet:` Sets the method to GET.
+- `.isPost:` Sets the method to POST.
+- `.isPut:` Sets the method to PUT.
+- `.isDelete:` Sets the method to DELETE.
+- `.method:` Defines a method to be used.
+- `.headers:` Apply a header to this model.
+- `.defaultHeaders:` Apply a standard header to all models.
+- `.token:` Save x-access-token and x-key.
+- `.then:` Execute and return the values in a callback, return $ .ajax.
+- `.exec:` Run the command without callback, return $ .ajax.
+- `.error:` Returns an error message for a callback.
+- `setApi:` Defines the API address.
+- `.wait:` Force the model or models below to wait the release of certain event.
+- `.release:` Releases waits.
 
- - `.remove, .delete, .del and .destroy:` Send a removal request with request to the url uses the DELETE method
-
- - `.update:` Sends data in the header of the body using the PUT method
-
-
- - `.read, .get:` Send a request to the URL using the GET method
+If the method has not yet defined `.query()` is applied, the method will be set as "GET". If `.data()` is applied, the method will be set to "POST".

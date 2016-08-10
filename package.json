@@ -1,0 +1,28 @@
+{
+  "name": "jquery-rest-client",
+  "version": "0.2.5",
+  "description": "Minimal library for restful client based on jQuery Ajax. Include a semaphore that controls the execution of each session. The purpose of this library is to improve the integration with restfull server on the client side using jQuery Ajax based and a structure that allows simulate an asynchronous architecture.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "^0.0.14"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-minify": "0.0.14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cupcoffeejs/jquery-rest-client.git"
+  },
+  "author": "Philippe Assis <assis@philippeassis.com> (philippeassis.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cupcoffeejs/jquery-rest-client/issues"
+  },
+  "homepage": "https://github.com/cupcoffeejs/jquery-rest-client#readme"
+}

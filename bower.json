@@ -1,6 +1,6 @@
 {
   "name": "jquery-rest-client",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "homepage": "https://github.com/cupcoffeejs/jquery-rest-client",
   "authors": [
     "Philippe Assis <assis@phlippeassis.com>"
@@ -25,5 +25,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
 }

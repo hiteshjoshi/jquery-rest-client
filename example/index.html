@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Example: CupCoffeeJs Jquery Rest Client</title>
+</head>
+
+<body>
+    <h1>CupCoffeeJs Jquery Rest Client</h1>
+    <h3>Example</h3>
+    <p>Open the browser debug to see the result</p>
+
+    <pre><code>
+        $(function() {
+            var Rest = $.RestClient('http://localhost:3000')
+
+            Rest.add({
+                'login': 'login',
+                'posts': 'api/services' //demo controller
+            })
+
+            Rest.login.post({
+                'username': "admin", //you username
+                "password": "123123" //you password
+            }).then(function(data) {
+                Rest.token(data.token, data.data.id); // Save x-access-token and x-key
+                Rest.release('login');
+            })
+
+            Rest.posts.wait('login').read('find').query({
+                category: 'javascript'
+            }).then(function(data){
+                console.log(data)
+            })
+        })
+    </code></pre>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.restclient.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var Rest = $.RestClient('http://localhost:3000')
+
+            Rest.add({
+                'login': 'login',
+                'posts': 'api/services' //demo controller
+            })
+
+            Rest.login.post({
+                'username': "admin", //you username
+                "password": "123123" //you password
+            }).then(function(data) {
+                Rest.token(data.token, data.data.id); // Save x-access-token and x-key
+                Rest.release('login');
+            })
+
+            Rest.posts.wait('login').read('find').query({
+                category: 'javascript'
+            }).then(function(data){
+                console.log(data)
+            })
+        })
+    </script>
+</body>
+
+</html>
