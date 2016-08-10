@@ -1,4 +1,4 @@
-# CupCoffeeJs jQuery Rest client
+# CupCoffeeJs jQuery Rest Client
 
 Minimal library for restful client based on jQuery Ajax. Include a semaphore that controls the execution of each session. The purpose of this library is to improve the integration with restfull server on the client side using jQuery Ajax based and a structure that allows simulate an asynchronous architecture.
 
