@@ -140,7 +140,13 @@
                     }
 
                     this.childrens.push(newSection);
-                    this[newSection] = new restControl(newSection, newUrl || newSection);
+                    var url = newUrl || newSection
+
+                    if(this.url){
+                        url = this.url +'/'+ url;
+                    }
+
+                    this[newSection] = new restControl(newSection, url);
                     this[newSection].parent = this.key
                 }
 
