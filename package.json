@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cupcoffeejs/jquery-rest-client.git"
+    "url": "git+https://github.com/hiteshjoshi/jquery-rest-client.git"
   },
   "author": "Philippe Assis <assis@philippeassis.com> (philippeassis.com)",
   "license": "ISC",
