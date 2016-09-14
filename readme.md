@@ -41,7 +41,7 @@ This library is being built to work with CupCoffee Js, specifically Cupcoffee Au
             'username': "admin",
             "password": "123456"
         }).then(function(data) {
-            rest.token(data.token, data.data.id);// Save x-access-token and x-key
+            rest.token(data.token);// Save Bearer token
             rest.release('login');
         })
 

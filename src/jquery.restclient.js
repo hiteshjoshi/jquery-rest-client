@@ -214,10 +214,9 @@
                     return this;
                 }
 
-                this.token = function(xToken, xKey) {
+                this.token = function(xToken) {
                     this.defaultHeaders({
-                        'x-access-token': xToken,
-                        'x-key': xKey
+                        'Authorization': "Bearer "+ xToken
                     })
                 }
 
