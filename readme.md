@@ -3,9 +3,8 @@
 Minimal library for restful client based on jQuery Ajax. Include a semaphore that controls the execution of each session. The purpose of this library is to improve the integration with restfull server on the client side using jQuery Ajax based and a structure that allows simulate an asynchronous architecture.
 
 ## Install
-`bower install jquery-rest-client`
 
-`npm install jquery-rest-client`
+`npm install git+https://github.com/hiteshjoshi/jquery-rest-client.git`
 
 ## What you should know to use
 

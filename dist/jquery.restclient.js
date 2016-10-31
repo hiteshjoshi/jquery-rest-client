@@ -1,6 +1,7 @@
 /**
  * Created by Philippe Assis
- * assis@philippeassis.com
+ * Maintained by Hitesh Joshi
+ * hi@hitesh.io
  * https://github.com/cupcoffeejs/jquery-rest-client
  */
 ;
@@ -142,8 +143,8 @@
                     this.childrens.push(newSection);
                     var url = newUrl || newSection
 
-                    if(this.url){
-                        url = this.url +'/'+ url;
+                    if (this.url) {
+                        url = this.url + '/' + url;
                     }
 
                     this[newSection] = new restControl(newSection, url);
@@ -158,7 +159,7 @@
                         this.current.query[name] = value;
                     }
 
-                    if(!this.current.method){
+                    if (!this.current.method) {
                         this.current.method = 'GET';
                     }
 
@@ -173,7 +174,7 @@
                         this.current.data[name] = value;
                     }
 
-                    if(!this.current.method){
+                    if (!this.current.method) {
                         this.current.method = 'POST';
                     }
                     return this;
@@ -189,35 +190,34 @@
                     return this;
                 }
 
-                this.method = function(value){
+                this.method = function(value) {
                     this.current.method = value;
                     return this;
                 }
 
-                this.isPost = function(){
+                this.isPost = function() {
                     this.current.method = "POST";
                     return this;
                 }
 
-                this.isGet = function(){
+                this.isGet = function() {
                     this.current.method = "GET";
                     return this;
                 }
 
-                this.isPut = function(){
+                this.isPut = function() {
                     this.current.method = "PUT";
                     return this;
                 }
 
-                this.isDelete = function(){
+                this.isDelete = function() {
                     this.current.method = "DELETE";
                     return this;
                 }
 
-                this.token = function(xToken, xKey) {
+                this.token = function(xToken) {
                     this.defaultHeaders({
-                        'x-access-token': xToken,
-                        'x-key': xKey
+                        'Authorization': "Bearer " + xToken
                     })
                 }
 
@@ -284,6 +284,7 @@
 
                 this.get = this.read;
                 this.post = this.create;
+                this.put = this.update;
                 this.insert = this.create;
                 this.del = this.delete;
                 this.remove = this.delete;
